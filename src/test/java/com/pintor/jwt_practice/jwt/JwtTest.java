@@ -11,6 +11,8 @@ import org.springframework.test.context.ActiveProfiles;
 
 import javax.crypto.SecretKey;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -63,5 +65,21 @@ class JwtTest {
         SecretKey secretKey2 = this.jwtProvider.getSecretKey();
 
         assertThat(secretKey1 == secretKey2).isTrue();
+    }
+
+    @Test
+    @DisplayName("generate accessToken")
+    public void t5() throws Exception {
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("id", 1L);
+        claims.put("username", "user1");
+
+        // claims로부터 5시간 유효 토큰 생성
+        String accessToken = this.jwtProvider.genToken(claims, 60 * 60 * 5);
+
+        System.out.println("accessToken generated: " + accessToken);
+
+        assertThat(accessToken).isNotNull();
     }
 }
