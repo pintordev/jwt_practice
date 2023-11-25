@@ -82,4 +82,20 @@ class JwtTest {
 
         assertThat(accessToken).isNotNull();
     }
+
+    @Test
+    @DisplayName("expired accessToken verification")
+    public void t6() throws Exception {
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("id", 1L);
+        claims.put("username", "user1");
+
+        // claims로부터 만료된 토큰 생성
+        String accessToken = this.jwtProvider.genToken(claims, -1);
+
+        System.out.println("accessToken : " + accessToken);
+
+        assertThat(this.jwtProvider.verify(accessToken)).isFalse();
+    }
 }

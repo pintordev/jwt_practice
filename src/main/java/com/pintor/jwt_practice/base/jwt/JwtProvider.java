@@ -46,4 +46,22 @@ public class JwtProvider {
                 .signWith(this.getSecretKey(), SignatureAlgorithm.HS512)
                 .compact();
     }
+
+    public boolean verify(String accessToken) {
+
+        try {
+            // secretKey를 통해 accessToken을 꺼내는 과정
+            // 만료 시 에러 발생
+            Jwts.parser()
+                    .verifyWith(this.getSecretKey())
+                    .build()
+                    .parseSignedClaims(accessToken);
+        } catch (Exception e) {
+            // 만료되었으므로 false 반환
+            return false;
+        }
+
+        // 에러 미발생 시 유효하므로 true 반환
+        return true;
+    }
 }
