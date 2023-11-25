@@ -1,8 +1,10 @@
 package com.pintor.jwt_practice.jwt;
 
+import com.pintor.jwt_practice.base.jwt.JwtProvider;
 import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -19,6 +21,9 @@ class JwtTest {
     // "${properties.key}"
     @Value("${custom.jwt.secretKey}")
     private String originalKey;
+
+    @Autowired
+    private JwtProvider jwtProvider;
 
     @Test
     @DisplayName("jwt secret key test")
@@ -37,6 +42,15 @@ class JwtTest {
 
         // Base64 방식으로 인코딩 된 문자열을 hmac 암호화 알고리듬을 이용해 secretKey를 만든다
         SecretKey secretKey = Keys.hmacShaKeyFor(keyBase64Encoded.getBytes());
+
+        assertThat(secretKey).isNotNull();
+    }
+
+    @Test
+    @DisplayName("make secretKey using jwtProvider")
+    public void t3() throws Exception {
+
+        SecretKey secretKey = this.jwtProvider.getSecretKey();
 
         assertThat(secretKey).isNotNull();
     }

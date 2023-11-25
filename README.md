@@ -8,3 +8,4 @@
 - [x] #1 - 프로젝트 세팅
 - [x] #2 - JwtTest.t1 jwt secret key test
 - [x] #3 - JwtTest.t2 make secretKey from originalKey using hmac encryption algorithm
+- [x] #4 - JwtTest.t3 make secretKey using jwtProvider
