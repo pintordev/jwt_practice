@@ -13,10 +13,19 @@ public class JwtProvider {
     @Value("${custom.jwt.secretKey}")
     private String originalKey;
 
-    public SecretKey getSecretKey() {
+    private SecretKey secretKey;
+
+    private SecretKey genSecretKey() {
 
         String keyBase64Encoded = Base64.getEncoder().encodeToString(this.originalKey.getBytes());
 
         return Keys.hmacShaKeyFor(keyBase64Encoded.getBytes());
+    }
+
+    public SecretKey getSecretKey() {
+
+        if (this.secretKey == null) this.secretKey = this.genSecretKey();
+
+        return this.secretKey;
     }
 }

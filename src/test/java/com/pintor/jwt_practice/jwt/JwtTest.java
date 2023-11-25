@@ -54,4 +54,14 @@ class JwtTest {
 
         assertThat(secretKey).isNotNull();
     }
+
+    @Test
+    @DisplayName("secretKey must be generated only once")
+    public void t4() throws Exception {
+
+        SecretKey secretKey1 = this.jwtProvider.getSecretKey();
+        SecretKey secretKey2 = this.jwtProvider.getSecretKey();
+
+        assertThat(secretKey1 == secretKey2).isTrue();
+    }
 }
