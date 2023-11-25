@@ -6,3 +6,4 @@
 
 ## 23-11-25
 - [x] #1 - 프로젝트 세팅
+- [x] #2 - JwtTest.t1 jwt secret key test
