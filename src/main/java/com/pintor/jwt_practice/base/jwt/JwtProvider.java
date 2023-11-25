@@ -1,6 +1,8 @@
 package com.pintor.jwt_practice.base.jwt;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.ToNumberPolicy;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -63,5 +65,21 @@ public class JwtProvider {
 
         // 에러 미발생 시 유효하므로 true 반환
         return true;
+    }
+
+    public Map<String, Object> getClaims(String accessToken) {
+
+        Gson gson = new GsonBuilder()
+                .setObjectToNumberStrategy(ToNumberPolicy.LONG_OR_DOUBLE) // 정수가 double형으로 변환되는 것 방지
+                .create();
+
+        String body = Jwts.parser()
+                .verifyWith(this.getSecretKey())
+                .build()
+                .parseSignedClaims(accessToken)
+                .getPayload()
+                .get("body", String.class);
+
+        return gson.fromJson(body, Map.class);
     }
 }

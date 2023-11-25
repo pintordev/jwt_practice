@@ -98,4 +98,28 @@ class JwtTest {
 
         assertThat(this.jwtProvider.verify(accessToken)).isFalse();
     }
+
+    @Test
+    @DisplayName("get claims from accessToken")
+    public void t7() throws Exception {
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("id", 1L);
+        claims.put("username", "user1");
+
+        // claims로부터 5시간 유효 토큰 생성
+        String accessToken = this.jwtProvider.genToken(claims, 60 * 60 * 5);
+
+        System.out.println("accessToken generated: " + accessToken);
+
+        assertThat(this.jwtProvider.verify(accessToken)).isTrue();
+
+        Map<String, Object> claimsFromAccessToken = this.jwtProvider.getClaims(accessToken);
+        System.out.println("claims from accessToken: " + claimsFromAccessToken);
+
+        assertThat(claimsFromAccessToken.containsKey("id")).isTrue();
+        assertThat(Long.parseLong(claimsFromAccessToken.get("id").toString()) == 1L).isTrue();
+        assertThat(claimsFromAccessToken.containsKey("username")).isTrue();
+        assertThat(claimsFromAccessToken.get("username").toString().equals("user1")).isTrue();
+    }
 }

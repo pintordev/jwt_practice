@@ -6,6 +6,7 @@
 
 ## 23-11-26
 - [x] #7 - JwtTest.t6 expired accessToken verification
+- [x] #8 - JwtTest.t7 get claims from accessToken
 
 ## 23-11-25
 - [x] #1 - 프로젝트 세팅
